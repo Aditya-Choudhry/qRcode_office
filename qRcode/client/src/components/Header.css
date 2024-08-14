@@ -1,0 +1,108 @@
+/* Header.css */
+
+.header {
+  background: linear-gradient(90deg, rgba(26,32,44,1) 0%, rgba(33,43,54,1) 100%);
+  color: white;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+/* Flex container for buttons and brand */
+.header .header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* Brand Name */
+.header .brand {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+}
+
+.header .brand a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.header .brand a:hover {
+  color: #e2e8f0;
+}
+
+/* Menu Button */
+.header .menu-button {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: 1rem;
+  z-index: 51;
+}
+
+/* Logout Button */
+.header .logout-button {
+  display: flex;
+  align-items: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+  position: absolute;
+  right: 1rem;
+  z-index: 51;
+}
+
+.header .logout-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.header .logout-button span {
+  color: #e2e8f0;
+}
+
+/* Ensure both buttons are visible on mobile view */
+@media (max-width: 1024px) {
+  .header .brand {
+    display: none; /* Hide brand name on mobile */
+  }
+
+  .header .menu-button {
+    display: flex; /* Ensure the menu button is visible on mobile */
+  }
+  
+  .header .logout-button {
+    display: flex; /* Ensure the logout button is visible on mobile */
+  }
+}
+
+/* Popup styling */
+.fixed-popup {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+}
+
+.popup-content {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  color: rgb(112, 139, 173);
+}

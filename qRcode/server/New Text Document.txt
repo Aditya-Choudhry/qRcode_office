@@ -1,0 +1,183 @@
+To integrate an OTP verification API route into your Node.js application using Axios, you can create an Express route that handles the OTP verification process. Below is an example of how you can implement this:
+
+1. **Install Axios and Form-Data**:
+   Make sure you have `axios` and `form-data` installed in your project. If not, you can install them using npm:
+
+   ```bash
+   npm install axios form-data
+   ```
+
+2. **Setup the Express Route**:
+   Create a new route in your `authRoutes.js` file (or any appropriate route file in your project) to handle OTP verification. This route will make a POST request to the OTP verification API endpoint.
+
+   Here's an example of how you can set it up:
+
+   ```javascript
+   import express from 'express';
+   import axios from 'axios';
+   import FormData from 'form-data';
+
+   const router = express.Router();
+
+   // Endpoint for OTP verification
+   router.post('/verify-otp', async (req, res) => {
+     const { otpCode } = req.body; // Assuming you receive the OTP code from the client
+
+     // Construct FormData for the request
+     const data = new FormData();
+     data.append('secret', 'IH225HMVWDS3XJVY');
+     data.append('account', 'User1');
+     data.append('issuer', 'HomeCorp');
+     data.append('otp_code', otpCode); // Pass the OTP code received from the client
+
+     const options = {
+       method: 'POST',
+       url: 'https://otp-authenticator.p.rapidapi.com/verify/',
+       headers: {
+         'x-rapidapi-key': '003740c037msh51238190a25a685p157c8djsn7ccafdacada3',
+         'x-rapidapi-host': 'otp-authenticator.p.rapidapi.com',
+         ...data.getHeaders(),
+       },
+       data: data
+     };
+
+     try {
+       const response = await axios.request(options);
+       console.log(response.data);
+       res.status(200).json({ success: true, message: response.data });
+     } catch (error) {
+       console.error(error);
+       res.status(500).json({ success: false, error: error.message });
+     }
+   });
+
+   export default router;
+   ```
+
+3. **Explanation**:
+   - **Express Router**: Creates a new router instance to define routes.
+   - **POST `/verify-otp` Route**: Defines a route for OTP verification.
+   - **FormData**: Constructs form data containing necessary parameters (`secret`, `account`, `issuer`, `otp_code`).
+   - **Axios Request**: Sends a POST request to the OTP verification API (`https://otp-authenticator.p.rapidapi.com/verify/`).
+   - **Handling Responses**: Logs the API response and sends a JSON response (`success: true`) to the client if verification is successful. Otherwise, sends an error response (`success: false`) with the error message.
+
+4. **Usage**:
+   - Update your `app.js` or main entry file to use `authRoutes`:
+
+   ```javascript
+   import express from 'express';
+   import mongoose from 'mongoose';
+   import cookieParser from 'cookie-parser';
+   import cors from 'cors';
+   import authRoutes from './routes/authRoutes.js'; // Assuming this is where your routes are defined
+   import dotenv from 'dotenv';
+
+   dotenv.config();
+
+   const app = express();
+   const PORT = process.env.PORT || 3000;
+
+   // Middleware
+   app.use(express.json());
+   app.use(cookieParser());
+   app.use(cors({
+     origin: 'http://localhost:8080', // Your frontend URL
+     credentials: true,
+   }));
+
+   // Routes
+   app.use('/api/auth', authRoutes); // Mount your authRoutes
+
+   // Connect to MongoDB
+   mongoose.connect(process.env.MONGODB_URI)
+     .then(() => {
+       console.log('Connected to MongoDB');
+       app.listen(PORT, () => {
+         console.log(`Server running on http://localhost:${PORT}`);
+       });
+     })
+     .catch(err => console.error('Error connecting to MongoDB:', err.message));
+   ```
+
+5. **Client-Side Integration**:
+   - On the client-side (e.g., your frontend application), send an OTP code (`otpCode`) to your backend `/verify-otp` endpoint using Axios or any HTTP client library.
+
+   ```javascript
+   import axios from 'axios';
+
+   const verifyOTP = async (otpCode) => {
+     try {
+       const response = await axios.post('/api/auth/verify-otp', { otpCode });
+       console.log(response.data); // Handle response from server
+     } catch (error) {
+       console.error('Error verifying OTP:', error);
+     }
+   };
+
+   // Example usage
+   const otpCodeFromClient = '123456'; // Replace with actual OTP code input by the user
+   verifyOTP(otpCodeFromClient);
+   ```
+
+This setup allows you to handle OTP verification using an external API (`otp-authenticator.p.rapidapi.com`) in your Node.js and Express application. Adjust the endpoint URLs, headers, and form data parameters as per the documentation of the OTP API you are integrating with.
+
+
+
+// import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+// import Login from './pages/Login';
+// import Signup from './pages/Signup';
+// import Home from './pages/Home';
+// import MyAccount from './pages/MyBusinesses.jsx';
+// import useIsAuth from './useIsAuth'; // Import your custom hook
+// import Layout from './components/Layout';
+// import Subscription from './pages/Subscription';
+// import Contact from './pages/Contact';
+// import Business from './pages/Business';
+// import Form from './pages/form.jsx';
+// import PositiveForm from './pages/positiveForm.jsx';
+// import FeedbackForm from './pages/complaintForm.jsx';
+// import ReviewForm from './pages/ReviewForm.jsx';
+// import PrivateForm from './pages/privateForm.jsx'
+ 
+ 
+// const App = () => {
+//   const isAuthenticated = useIsAuth();
+ 
+//   // Handle loading state (optional)
+//   if (isAuthenticated === null) {
+//     return <div>Loading...</div>; // Or any loading spinner
+//   }
+ 
+//   return (
+// <BrowserRouter>
+//       <Routes>
+//         <Route path="/" element={<Home />} />
+//         <Route path="/reviewForm" element={<ReviewForm />} />
+//         <Route path="/form/:businessId" element={<Form />} />
+//         <Route path="/unsubscribed" element={<Subscription />} />
+//         <Route path='/privateform' element={<PrivateForm />} />
+//         <Route path="/complaintForm" element={<FeedbackForm />} />
+//         <Route path="/positiveForm/:businessId" element={<PositiveForm />} />
+//         <Route path="/login" element={isAuthenticated ? <Navigate to="/mybusinesses" /> : <Login />} />
+//         <Route path="/signup" element={isAuthenticated ? <Navigate to="/mybusinesses" /> : <Signup />} />
+       
+//         {/* Protected Routes with Layout */}
+//         {isAuthenticated && (
+//           <Route element={<Layout />}>
+//             <Route path="/mybusinesses" element={<MyAccount />} />
+//             <Route path="/business" element={<Business />} />
+//             <Route path='/business/:id' element={<Business/>} />
+//             <Route path="/subscription" element={<Subscription />} />
+//             <Route path="/contact" element={<Contact />} />
+//             {/* Add other authenticated routes here */}
+//           </Route>
+//         )}
+//       </Routes>
+//     </BrowserRouter>
+//   );
+// };
+ 
+// export default App;
+
+
+// App.jsx
