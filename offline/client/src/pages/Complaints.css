@@ -1,0 +1,75 @@
+/* Complaints.css */
+
+/* Base styles for the container */
+.container {
+    min-height: 100vh;
+    background-color: #f7fafc;
+    padding: 2rem 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  
+  /* Styles for the main content */
+  .main-content {
+    max-width: 100%;
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    padding: 1rem;
+  }
+  
+  /* Table and form grid layout */
+  .grid-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  @media (min-width: 640px) {
+    .grid-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .grid-container {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  /* Table styles */
+  .table-container {
+    overflow-x: auto;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+  }
+  
+  .table thead {
+    background-color: #f7fafc;
+  }
+  
+  .table th, .table td {
+    padding: 0.5rem;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 0.875rem;
+    color: #4a5568;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 640px) {
+    .table-container {
+      margin-bottom: 1rem;
+    }
+  
+    .table th, .table td {
+      padding: 0.75rem;
+      font-size: 0.75rem;
+    }
+  }
+  

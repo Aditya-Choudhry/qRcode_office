@@ -1,0 +1,32 @@
+/* For the active tab indicator */
+.active-indicator {
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    width: 50%;
+    height: 3px;
+    background: linear-gradient(to right, #6366F1, #8B5CF6);
+    transform: translateX(-50%);
+    border-radius: 9999px;
+}
+
+/* For the reset button hover effect */
+.reset-button:hover {
+    color: #E0245E;
+}
+
+.tab-content {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Hover effect on the tabs */
+button:hover .active-indicator {
+    width: 60%;
+    transition: width 0.3s ease-in-out;
+}
